@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 @Data
 public class AccountCreatedEvent {
     String aggregateObjectType;
-    String aggregateObjectId;
+    String aggregateObject;
     String messagePayload;
     LocalDateTime emittedDate;
 }

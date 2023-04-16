@@ -1,9 +1,12 @@
 package com.example.demo.service;
 
+import com.example.demo.domain.dto.AccountCreateDTO;
 import com.example.demo.domain.event.AccountCreatedEvent;
 import com.example.demo.domain.event.AccountDeletedEvent;
 import com.example.demo.domain.event.AccountUpdatedEvent;
 import com.example.demo.domain.model.account.Account;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.admin.NewTopic;
@@ -17,25 +20,16 @@ import java.time.LocalDateTime;
 @Service
 @RequiredArgsConstructor
 public class EventHandler {
-
+    private final AccountService accountService;
     private final KafkaTemplate<String, String> kafkaTemplate;
     private final NewTopic topic1;
 
     @EventListener
-    public void processAdd(AccountCreatedEvent event) {
-        AccountUpdatedEvent event = new AccountUpdatedEvent();
-
-        Account account;
-        account.setEmail(accountUpdateDTO.getEmail());
-        account.setPassword(accountUpdateDTO.getPassword());
-        account.setUsername(accountUpdateDTO.getUsername());
-
-        event.setEmittedDate(LocalDateTime.now());
-        event.setAggregateObjectType("Account");
-        event.setAggregateObjectId(String.valueOf(savedAccount.getId()));
-
+    public void processAdd(AccountCreatedEvent event) throws JsonProcessingException {
         log.info("event received: " + event);
-        kafkaTemplate.send("test_topic",0, event.getAggregateObjectId(),"added");
+        kafkaTemplate.send("test_topic",0, event.getAggregateObject(),"added");
+        ObjectMapper mapper = new ObjectMapper();
+        accountService.createAccount(mapper.readValue(event.getAggregateObject(), AccountCreateDTO.class));
     }
     @EventListener
     public void processUpdate(AccountUpdatedEvent event) {

@@ -39,15 +39,14 @@ public class AccountService {
         account.setUsername(accountCreateDTO.getUsername());
         Account savedAccount = accountRepository.save(account);
 
-        AccountCreatedEvent event = new AccountCreatedEvent();
-        event.setEmittedDate(LocalDateTime.now());
-        event.setAggregateObjectType("Account");
-        event.setAggregateObjectId(String.valueOf(savedAccount.getId()));
+//        AccountCreatedEvent event = new AccountCreatedEvent();
+//        event.setEmittedDate(LocalDateTime.now());
+//        event.setAggregateObjectType("Account");
+//        event.setAggregateObjectId(String.valueOf(savedAccount.getId()));
+//        ObjectMapper mapper = new ObjectMapper();
+//        event.setMessagePayload(mapper.writeValueAsString(savedAccount));
 
-        ObjectMapper mapper = new ObjectMapper();
-        event.setMessagePayload(mapper.writeValueAsString(savedAccount));
-
-        eventPublisher.publishEvent(event);
+        //eventPublisher.publishEvent(event);
         return savedAccount;
     }
     public Account updateAccount(long id, AccountUpdateDTO accountUpdateDTO) throws JsonProcessingException{

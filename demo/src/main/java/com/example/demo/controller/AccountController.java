@@ -40,7 +40,6 @@ public class AccountController {
         event.setEmittedDate(LocalDateTime.now());
         event.setAggregateObjectType("Account");
         event.setAggregateObject(String.valueOf(accountCreateDTO.toString()));
-        
         eventPublisher.publishEvent(event);
     }
     @PutMapping("accounts/{id}/")

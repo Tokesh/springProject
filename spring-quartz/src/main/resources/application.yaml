@@ -1,0 +1,28 @@
+server:
+  port: 8099
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost/springboot
+    username: postgres
+    password: postgres
+    pool-size: 10
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  quartz:
+    job-store-type: jdbc
+    jdbc:
+      initialize-schema: always
+    properties:
+      org:
+        quartz:
+          threadPool:
+            class: org.quartz.simpl.SimpleThreadPool
+            threadCount: 5
+          jobStore:
+            class: org.springframework.scheduling.quartz.LocalDataSourceJobStore
+            dataSource: spring.datasource
+            driverDelegateClass: org.quartz.impl.jdbcjobstore.PostgreSQLDelegate
+            isClustered: true
+          scheduler:
+            instanceName: message-printer
+            instanceId: AUTO

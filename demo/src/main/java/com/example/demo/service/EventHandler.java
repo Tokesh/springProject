@@ -11,7 +11,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.context.event.EventListener;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -25,11 +27,12 @@ public class EventHandler {
     private final NewTopic topic1;
 
     @EventListener
-    public void processAdd(AccountCreatedEvent event) throws JsonProcessingException {
+    @KafkaListener(topics = "test_topic")
+    public void processAdd(@Payload String event) throws JsonProcessingException {
         log.info("event received: " + event);
-        kafkaTemplate.send("test_topic",0, event.getAggregateObject(),"added");
+        //kafkaTemplate.send("test_topic",0, event.getAggregateObject(),"added");
         ObjectMapper mapper = new ObjectMapper();
-        accountService.createAccount(mapper.readValue(event.getAggregateObject(), AccountCreateDTO.class));
+        accountService.createAccount(mapper.readValue(event, AccountCreateDTO.class));
     }
     @EventListener
     public void processUpdate(AccountUpdatedEvent event) {

@@ -26,3 +26,5 @@ spring:
           scheduler:
             instanceName: message-printer
             instanceId: AUTO
+  kafka:
+    bootstrap-servers: ${kafka:localhost:9092}

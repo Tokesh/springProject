@@ -18,27 +18,44 @@ public class AccountSchedulerController {
 
     @Autowired
     private Scheduler scheduler;
-
+//
+//    @GetMapping("/schedule-job")
+//    public String scheduleJob(@RequestParam("msg") String message) throws SchedulerException {
+//        JobDataMap jobDataMap = new JobDataMap();
+//        jobDataMap.put("message", message);
+//        JobKey jobKey = new JobKey("MessagePrintingJob");
+//        JobDetail jobDetail = JobBuilder.newJob()
+//                .withIdentity(UUID.randomUUID().toString())
+//                .setJobData(jobDataMap)
+//                .withDescription("Simple message printing Job.")
+//                .ofType(AccountJob.class)
+//                .storeDurably()
+//                .build();
+//        Trigger trigger = TriggerBuilder.newTrigger()
+//                .forJob(jobDetail)
+////                .startAt(Date.from(Instant.now().plus(30, ChronoUnit.SECONDS)))
+//                .withSchedule(simpleSchedule().repeatForever().withIntervalInSeconds(10))
+//                .withDescription("Simple message printing Job trigger.")
+//                .build();
+//        logger.info("Scheduling printing message Job with message :{}", message);
+//        scheduler.scheduleJob(jobDetail, trigger);
+//        return "Job scheduled!!";
+//    }
     @GetMapping("/schedule-job")
-    public String scheduleJob(@RequestParam("msg") String message) throws SchedulerException {
-        JobDataMap jobDataMap = new JobDataMap();
-        jobDataMap.put("message", message);
-        JobKey jobKey = new JobKey("MessagePrintingJob");
+    public String scheduleJob() throws SchedulerException {
         JobDetail jobDetail = JobBuilder.newJob()
-                .withIdentity(UUID.randomUUID().toString())
-                .setJobData(jobDataMap)
-                .withDescription("Simple message printing Job.")
-                .ofType(AccountJob.class)
-                .storeDurably()
+                .withIdentity("CreateAccountJob")
+                .withDescription("Job to create new accounts every 10 seconds.")
+                .ofType(CreateAccountJob.class)
                 .build();
         Trigger trigger = TriggerBuilder.newTrigger()
-                .forJob(jobDetail)
-//                .startAt(Date.from(Instant.now().plus(30, ChronoUnit.SECONDS)))
-                .withSchedule(simpleSchedule().repeatForever().withIntervalInSeconds(10))
-                .withDescription("Simple message printing Job trigger.")
+                .withIdentity("CreateAccountTrigger")
+                .withDescription("Trigger to create new accounts every 10 seconds.")
+                .startNow()
+                .withSchedule(SimpleScheduleBuilder.repeatSecondlyForever(10))
                 .build();
-        logger.info("Scheduling printing message Job with message :{}", message);
         scheduler.scheduleJob(jobDetail, trigger);
-        return "Job scheduled!!";
+        return "Job scheduled!";
     }
+
 }

@@ -90,10 +90,10 @@ public class AccountService {
             return false;
         }
     }
-    @KafkaListener(topicPattern = "test_topic")
-    public void listenGroup(String message){
-        System.out.println("Received Message for group-2: " + message);
-    }
+    //@KafkaListener(topicPattern = "test_topic")
+//    public void listenGroup(String message){
+//        System.out.println("Received Message for group-2: " + message);
+//    }
 //    @KafkaListener(topicPartitions
 //            = @TopicPartition(topic = "test_topic", partitions = { "0" }))
 //    public void listenGroup(@Payload String message,

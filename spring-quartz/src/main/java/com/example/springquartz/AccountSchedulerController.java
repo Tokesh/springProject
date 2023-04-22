@@ -52,6 +52,24 @@ public class AccountSchedulerController {
                 .withIdentity("CreateAccountTrigger")
                 .withDescription("Trigger to create new accounts every 10 seconds.")
                 .startNow()
+                .withSchedule(SimpleScheduleBuilder.repeatMinutelyForever(5))
+                .build();
+        scheduler.scheduleJob(jobDetail, trigger);
+        return "Job scheduled!";
+    }
+
+    @GetMapping("/schedule-job-gatling")
+    public String scheduleJobGatling() throws SchedulerException {
+        UUID uuid = UUID.randomUUID();
+        JobDetail jobDetail = JobBuilder.newJob()
+                .withIdentity("CreateAccountJob " + uuid)
+                .withDescription("Job to create new accounts every 10 seconds.")
+                .ofType(CreateAccountJob.class)
+                .build();
+        Trigger trigger = TriggerBuilder.newTrigger()
+                .withIdentity("CreateAccountTrigger " + uuid)
+                .withDescription("Trigger to create new accounts every 10 seconds.")
+                .startNow()
                 .withSchedule(SimpleScheduleBuilder.repeatSecondlyForever(10))
                 .build();
         scheduler.scheduleJob(jobDetail, trigger);

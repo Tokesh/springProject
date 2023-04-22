@@ -23,9 +23,9 @@ public class CreateAccountJob extends QuartzJobBean {
 
     private AccountCreateDTO generateRandomAccount() {
         Random rand = new Random();
-        String username = "user" + rand.nextInt(1000);
-        String password = "password" + rand.nextInt(1000);
-        String email = "user" + rand.nextInt(1000) + "@gmail.com";
+        String username = "user" + rand.nextInt(100000);
+        String password = "password" + rand.nextInt(100000);
+        String email = "user" + rand.nextInt(100000) + "@gmail.com";
         return new AccountCreateDTO(username, password, email);
     }
 }

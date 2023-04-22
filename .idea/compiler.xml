@@ -11,10 +11,15 @@
         <module name="spring-quartz" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="gatling-demo" target="1.8" />
+      <module name="spring-boot-performance" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="demo" options="-parameters" />
+      <module name="spring-boot-performance" options="-parameters" />
       <module name="spring-quartz" options="-parameters" />
     </option>
   </component>

@@ -27,4 +27,4 @@ spring:
             instanceName: message-printer
             instanceId: AUTO
   kafka:
-    bootstrap-servers: ${kafka:localhost:9092}
+    bootstrap-servers: kafka:9092

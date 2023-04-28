@@ -1,3 +1,12 @@
+server:
+  port: 8080
 spring:
+  datasource:
+    url: jdbc:postgresql://localhost/springboot
+    username: postgres
+    password: postgres
+    pool-size: 10
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
   kafka:
     bootstrap-servers: ${kafka:localhost:9092}

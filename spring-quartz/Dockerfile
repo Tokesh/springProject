@@ -1,4 +1,4 @@
-FROM arm64v8/openjdk:21
+FROM openjdk:17-jdk
 VOLUME /tmp
 EXPOSE 8080
 RUN mkdir -p /app/

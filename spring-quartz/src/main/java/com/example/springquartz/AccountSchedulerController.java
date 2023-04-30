@@ -52,7 +52,7 @@ public class AccountSchedulerController {
                 .withIdentity("CreateAccountTrigger")
                 .withDescription("Trigger to create new accounts every 10 seconds.")
                 .startNow()
-                .withSchedule(SimpleScheduleBuilder.repeatMinutelyForever(5))
+                .withSchedule(SimpleScheduleBuilder.repeatSecondlyForever(10))
                 .build();
         scheduler.scheduleJob(jobDetail, trigger);
         return "Job scheduled!";
